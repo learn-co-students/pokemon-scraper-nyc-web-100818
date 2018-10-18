@@ -1,6 +1,7 @@
+require 'pry'
 class Pokemon
 
-    attr_accessor :id, :name, :type, :db
+    attr_accessor :id, :name, :type, :db, :hp
 
     @@all = []
 
@@ -19,7 +20,12 @@ class Pokemon
     end
 
     def self.find(id, database_connection)
-      database_connection.execute("SELECT * FROM pokemon WHERE pokemon.id = ?")
+      final = database_connection.execute("SELECT * FROM pokemon WHERE pokemon.id = id").flatten
+
+      attributes = {id: final[0], name: final[1], type: final[2] }
+      final = Pokemon.new(attributes)
+      
+      #binding.pry
     end
 
 end
